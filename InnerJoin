@@ -1,0 +1,31 @@
+select CustomerID as 'codigoClientes',
+count(orderID) as 'QtdPedidos'
+from orders
+group by CustomerID
+order by QtdPedidos asc;
+
+select min(unitprice) 'Menor Preço',
+		max(unitprice) 'Maior Preço',
+		avg(unitprice) 'Ticket Médio',
+        sum(unitprice * unitsinstock) as 'ValorTotalProdutos',
+        count(productid) as 'QtdItensDiferentes'
+from products;
+
+select cli.customerid,
+		cli.contactName,
+        cli.Address,
+        ord.orderid,
+        ord.employeeid,
+        ord.orderdate,
+        od.quantity,
+        od.unitprice,
+        od.discount,
+        pro.ProductID,
+        pro.unitprice,
+        pro.unitsinstock
+from customers as cli inner join orders as ord
+		on cli.CustomerID = ord.CustomerID
+				inner join `order details` as od
+        on od.orderid = ord.orderid
+				inner join products as pro
+		on pro.ProductID = od.productid;
